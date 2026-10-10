@@ -98,3 +98,37 @@ def test_rt_friis_absolute_delay_and_reflection():
     reflected.rt.max_depth = 1
     reflection, _ = simulate(reflected)
     assert reflection["desired_cir"].shape[-1] >= 2
+    expected_delays = np.sort([distance / C, np.linalg.norm([50, 0, 11.5]) / C])
+    np.testing.assert_allclose(np.sort(reflection["desired_delays_s"][0, 0]), expected_delays, rtol=3e-5)
+
+
+@pytest.mark.rt
+@pytest.mark.skipif(os.environ.get("CHANNELHUB_TEST_RT") != "1", reason="opt-in native RT test")
+def test_rt_mimo_interferers_keep_each_links_distinct_path_delays():
+    array = Array(cols=2)
+    cfg = RunConfig(
+        engine="sionna_rt",
+        num_rb=4,
+        num_slots=1,
+        tx=Transmitter(array=array),
+        rx=Receiver(array=Array(cols=4)),
+        interferers=[
+            Transmitter(position_m=(70, 10, 12), array=array),
+            Transmitter(position_m=(-20, 15, 8), array=array),
+        ],
+        rt=RayTracing(scene="reflector", max_depth=1, samples_per_source=10000),
+    )
+    data, _ = simulate(cfg)
+    for i, tx in enumerate([cfg.tx, *cfg.interferers]):
+        prefix = "desired" if i == 0 else f"interferer_{i - 1}"
+        assert data[prefix + "_h"].shape == (14, 4, 2, 48)
+        position = np.asarray(tx.position_m)
+        image_position = position * [1, 1, -1]
+        expected = np.sort(
+            [
+                np.linalg.norm(position - cfg.rx.position_m) / C,
+                np.linalg.norm(image_position - cfg.rx.position_m) / C,
+            ]
+        )
+        actual = np.sort(data[prefix + "_delays_s"], axis=-1)
+        np.testing.assert_allclose(actual, np.broadcast_to(expected, (4, 2, 2)), rtol=3e-5)

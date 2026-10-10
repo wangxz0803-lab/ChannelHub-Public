@@ -23,6 +23,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import Field
 
+from . import __version__
 from .config import RunConfig, Settings
 
 
@@ -183,7 +184,7 @@ def create_app(runtime: Path | str = "runtime"):
         yield
         manager.close()
 
-    app = FastAPI(title="ChannelHub Public", version="0.1.0", lifespan=lifespan)
+    app = FastAPI(title="ChannelHub Public", version=__version__, lifespan=lifespan)
     app.state.jobs = manager
 
     @app.middleware("http")

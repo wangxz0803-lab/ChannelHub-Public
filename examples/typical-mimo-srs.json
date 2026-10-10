@@ -1,0 +1,109 @@
+{
+  "engine": "statistical",
+  "profile": "CDL-C",
+  "seed": 20261010,
+  "carrier_ghz": 3.5,
+  "scs_khz": 30,
+  "num_rb": 50,
+  "num_slots": 8,
+  "delay_spread_ns": 100,
+  "tx": {
+    "position_m": [
+      0,
+      0,
+      15
+    ],
+    "power_dbm": 0,
+    "pathloss_db": 110,
+    "array": {
+      "cols": 2,
+      "polarization": "V",
+      "pattern": "iso"
+    },
+    "waveform": {
+      "kind": "srs",
+      "identity": 37,
+      "srs": {
+        "c_srs": 12,
+        "b_srs": 0,
+        "b_hop": 3,
+        "comb": 2,
+        "shift_rb": 1,
+        "ports": 2,
+        "period_slots": 2,
+        "offset_slots": 1,
+        "symbols": 2,
+        "start_position": 1,
+        "repetition": 2
+      }
+    }
+  },
+  "rx": {
+    "position_m": [
+      80,
+      20,
+      1.5
+    ],
+    "velocity_m_s": [
+      5,
+      1,
+      0
+    ],
+    "array": {
+      "cols": 4,
+      "polarization": "V",
+      "pattern": "iso",
+      "yaw_deg": 180
+    }
+  },
+  "interferers": [
+    {
+      "position_m": [
+        160,
+        -35,
+        12
+      ],
+      "power_dbm": -3,
+      "pathloss_db": 111,
+      "activity": 0.75,
+      "array": {
+        "cols": 2
+      },
+      "waveform": {
+        "kind": "qpsk",
+        "identity": 68
+      }
+    },
+    {
+      "position_m": [
+        90,
+        90,
+        10
+      ],
+      "power_dbm": -6,
+      "pathloss_db": 112,
+      "array": {
+        "cols": 2
+      },
+      "waveform": {
+        "kind": "srs",
+        "identity": 68,
+        "srs": {
+          "c_srs": 12,
+          "comb": 2,
+          "cyclic_shift": 2,
+          "shift_rb": 1,
+          "ports": 2,
+          "period_slots": 2,
+          "offset_slots": 1,
+          "symbols": 2,
+          "start_position": 1,
+          "repetition": 2
+        }
+      }
+    }
+  ],
+  "noise_psd_dbm_hz": -174,
+  "noise_figure_db": 5,
+  "noise_enabled": true
+}

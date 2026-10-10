@@ -27,6 +27,9 @@ def frequencies(cfg):
 
 def taps_to_frequency(taps, delays, freq):
     """H(f,t)=sum_p a_p(t) exp(-j 2π f τ_p); no power normalization."""
+    # Native RT delays can be float32. Promote before multiplying by 2πj:
+    # NumPy otherwise rounds that intermediate even with float64 frequencies.
+    delays = np.asarray(delays, dtype=np.float64)
     if taps.ndim != 4 or delays.shape != taps.shape[1:]:
         raise ValueError("Expected taps[time,rx,tx,path] and delays[rx,tx,path]")
     out = np.empty((*taps.shape[:3], len(freq)), dtype=np.complex128)
@@ -164,6 +167,14 @@ def ray_tracing(cfg: RunConfig, scene_path: Path | None = None) -> list[Channel]
     result = []
     for i in range(1 + len(cfg.interferers)):
         taps = a[0, :, i].transpose(3, 0, 1, 2).astype(np.complex128)
-        delays = np.broadcast_to(tau[0, :, i], taps.shape[1:]).copy()
+        # Synthetic arrays share each link's path delays across antenna ports;
+        # tau is [rx, tx, path], unlike the antenna-expanded CIR coefficients.
+        if tau.ndim == 3:
+            link_delays = tau[0, i]
+        elif tau.ndim == 5:
+            link_delays = tau[0, :, i]
+        else:
+            raise RuntimeError(f"Unexpected upstream RT delay shape: {tau.shape}")
+        delays = np.broadcast_to(link_delays, taps.shape[1:]).copy()
         result.append(Channel(taps_to_frequency(taps, delays, frequencies(cfg)), taps, delays))
     return result

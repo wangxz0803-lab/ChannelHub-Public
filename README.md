@@ -60,6 +60,7 @@ channelhub serve
 ```bash
 channelhub generate --config examples/statistical-srs.json --output outputs/first-run
 channelhub generate --config examples/rt-reflector.json --output outputs/rt-run
+channelhub generate --config examples/typical-mimo-srs.json --output outputs/typical-run
 ```
 
 结果目录包含 `observations.npz` 和 `metadata.json`；重复写入同一结果目录会报错。随机种子、完整配置及依赖版本记录在元数据中。
@@ -78,6 +79,8 @@ with np.load("outputs/first-run/observations.npz", allow_pickle=False) as data:
 ```
 
 完整字段、功率定义和模型边界见 [数据接口](docs/DATA_CONTRACT.md)。
+
+`typical-mimo-srs.json` 是已实采验证的 2 发 4 收、移动接收端、双干扰源示例。场景参数、独立数值核验、发现的问题与修复见 [v0.1.1 验收记录](docs/VALIDATION.md)。
 
 ## 自定义发射信号
 

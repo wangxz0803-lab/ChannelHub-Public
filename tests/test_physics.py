@@ -22,6 +22,16 @@ def test_padded_invalid_path_does_not_contribute():
     np.testing.assert_array_equal(h, np.full((1, 1, 1, 9), 2))
 
 
+def test_native_float32_delays_do_not_round_phase_before_frequency_scaling():
+    delay = np.array([[[169.17488e-9]]], dtype=np.float32)
+    coefficient = 0.003 * np.exp(0.7j)
+    taps = np.full((2, 1, 1, 1), coefficient, dtype=np.complex128)
+    frequencies = np.linspace(-100e6, 100e6, 513)
+    expected = coefficient * np.exp(-2j * np.pi * frequencies * float(delay[0, 0, 0]))
+    actual = taps_to_frequency(taps, delay, frequencies)
+    np.testing.assert_allclose(actual[0, 0, 0], expected, rtol=3e-14, atol=1e-18)
+
+
 def test_mimo_complex_superposition_without_conjugation():
     h = np.array([[[[1 + 2j], [3 - 4j]], [[5j], [2]]]])
     x = np.array([[[2 + 1j], [1 - 3j]]])

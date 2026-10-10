@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "channelhub-public"
-version = "0.1.0"
+version = "0.1.1"
 description = "Channel and interference generation for university research"
 requires-python = ">=3.11"
 license = "LicenseRef-ChannelHub-University-Research"
