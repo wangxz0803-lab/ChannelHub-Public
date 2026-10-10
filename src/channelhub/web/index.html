@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ChannelHub · Research</title><link rel="stylesheet" href="/style.css"><script defer src="/app.js"></script></head>
+<body>
+<aside class="sidebar">
+  <a class="brand" href="/" aria-label="ChannelHub 首页"><span class="logo">CH</span><span>ChannelHub<small>RESEARCH EDITION</small></span></a>
+  <div class="nav-label">实验工作区</div>
+  <nav><button class="nav active" data-page="workspace"><span>◈</span> 配置与生成</button><button class="nav" data-page="runs"><span>▤</span> 实验记录 <b id="job-count">0</b></button><button class="nav" data-page="guide"><span>▧</span> 数据与接入</button></nav>
+  <div class="side-bottom"><i class="dot"></i> 本地实验环境<p>University research only<br>v0.1 · 公开科研版</p></div>
+</aside>
+<main>
+  <header><div><span class="breadcrumb">ChannelHub /</span> <span id="page-label">配置与生成</span></div><span class="badge">ACADEMIC USE</span></header>
+  <section id="workspace" class="page">
+    <div class="page-heading"><div><div class="eyebrow">CHANNEL & INTERFERENCE LAB</div><h1>从信道开始，验证你的算法。</h1><p>配置传播环境与发射资源，生成可复现的原始信道和接收观测。</p></div><button id="reset" class="secondary">恢复示例</button></div>
+    <div class="steps"><span class="current"><b>01</b> 配置实验</span><span><b>02</b> 生成信道与观测</span><span><b>03</b> 下载并接入算法</span></div>
+    <div id="notice" role="status" hidden></div>
+    <form id="experiment-form">
+      <div class="workspace-grid"><div class="form-panels">
+        <section class="card"><div class="card-title"><span class="section-num">01</span><div><h2>信道与资源网格</h2><p>选择引擎，定义频率和采样范围</p></div></div>
+          <div class="fields"><label>信道引擎<select id="engine"><option value="statistical">统计信道 · CDL / TDL</option><option value="sionna_rt">Sionna · 射线追踪</option></select></label><label id="profile-label">信道模型<select id="profile"></select></label>
+          <label>载频 <span>GHz</span><input id="carrier" type="number" min="0.1" max="100" step="0.1" value="3.5" required></label><label>子载波间隔 <span>kHz</span><select id="scs"><option>15</option><option selected>30</option><option>60</option><option>120</option></select></label>
+          <label>资源块数量 <span>RB</span><input id="rb" type="number" min="4" max="100" value="24" required></label><label>观测时隙 <span>slots</span><input id="slots" type="number" min="1" max="32" value="2" required></label>
+          <label id="delay-label">RMS 时延扩展 <span>ns</span><input id="delay" type="number" min="1" max="10000" value="100" required></label><label>随机种子<input id="seed" type="number" min="0" max="2147483647" value="42" required></label></div>
+          <div id="rt-fields" class="fields extra" hidden><label>场景<select id="scene"><option value="empty">空场景 · 自由空间</option><option value="reflector">合成场景 · 混凝土地面</option></select></label><label>最大反射深度<input id="depth" type="number" min="0" max="6" value="2"></label><label>每个发射源射线数<input id="rays" type="number" min="100" max="1000000" value="10000"></label><p class="help">可通过命令行载入自定义 XML 场景。当前窗口内使用固定路径及多普勒演进。</p></div>
+        </section>
+        <section class="card"><div class="card-title"><span class="section-num">02</span><div><h2>收发端与发射信号</h2><p>通用天线阵列，公开标准导频</p></div></div>
+          <div class="fields"><label>发射阵列 <span>行 × 列</span><div class="pair"><input id="tx-rows" aria-label="发射阵列行数" type="number" min="1" max="8" value="1"><input id="tx-cols" aria-label="发射阵列列数" type="number" min="1" max="8" value="1"></div></label><label>接收阵列 <span>行 × 列</span><div class="pair"><input id="rx-rows" aria-label="接收阵列行数" type="number" min="1" max="8" value="1"><input id="rx-cols" aria-label="接收阵列列数" type="number" min="1" max="8" value="2"></div></label>
+          <label>发射位置 <span>x, y, z · m</span><input id="tx-position" value="0, 0, 10" required></label><label>接收位置 <span>x, y, z · m</span><input id="rx-position" value="50, 0, 1.5" required></label>
+          <label>接收端速度 <span>x, y, z · m/s</span><input id="velocity" value="0, 0, 0" required></label><label>天线方向图<select id="pattern"><option value="iso">全向 · 单极化 V</option><option value="3gpp">3GPP · 单极化 V</option></select></label>
+          <label>发射信号<select id="waveform"><option value="srs">SRS</option><option value="csi_rs">CSI-RS · 单端口 row 2</option><option value="ssb">SSB · PSS / SSS / DMRS</option><option value="qpsk">QPSK · 满资源网格</option><option value="custom">自定义 X · .npy</option></select></label><label>总发射功率 <span>dBm / 活跃 RE</span><input id="power" type="number" min="-100" max="60" value="0" step="0.1"></label>
+          <label>序列标识 <span>PCI / ID</span><input id="identity" type="number" min="0" max="1007" value="0"></label><label id="beam-label">DFT 波束索引<input id="beam" type="number" min="0" max="63" value="0"></label></div>
+          <div id="srs-fields" class="fields extra"><label>SRS 带宽索引 <span>C_SRS</span><input id="srs-c" type="number" min="0" max="63" value="0"></label><label>传输梳齿<select id="comb"><option value="2">Comb 2</option><option value="4">Comb 4</option></select></label><label>SRS 发射端口<select id="srs-ports"><option>1</option><option>2</option><option>4</option></select></label><label>周期 <span>slots</span><input id="period" type="number" min="1" max="2560" value="1"></label></div>
+          <div id="custom-fields" class="extra" hidden><label>上传复数发射网格<input id="custom-x" type="file" accept=".npy"></label><p class="help">形状为 [时间, 发射端口, 子载波]，单位 √W。上传后保持原始幅度；功率设置不再缩放 X。</p></div>
+          <p id="wave-note" class="help">SRS 默认在每个时隙最后一个 OFDM 符号发送。</p>
+        </section>
+        <section class="card"><div class="card-title"><span class="section-num">03</span><div><h2>干扰与噪声</h2><p>同频干扰独立生成，在原始资源网格上叠加</p></div><label class="switch"><input id="interference-on" type="checkbox">启用干扰</label></div>
+          <div class="fields"><label>干扰源数量<input id="interferer-count" type="number" min="1" max="8" value="1"></label><label>每源发射功率 <span>dBm / RE</span><input id="interferer-power" type="number" min="-100" max="60" value="0" step="0.1"></label><label>干扰源时隙活跃概率<input id="activity" type="number" min="0" max="1" step="0.1" value="1"></label><label>干扰波形<select id="interferer-wave"><option value="qpsk">满网格 QPSK</option><option value="srs">SRS 导频</option><option value="csi_rs">CSI-RS 导频</option></select></label>
+          <label>噪声功率谱密度 <span>dBm/Hz</span><input id="noise" type="number" min="-240" max="-80" value="-174" step="0.1"></label><label>接收机噪声系数 <span>dB</span><input id="nf" type="number" min="0" max="40" value="5" step="0.1"></label></div><label class="check"><input id="noise-on" type="checkbox" checked> 添加复高斯白噪声</label>
+          <p class="help">默认干扰源分布在接收端附近 80 m 圆周。高级配置中可逐个设置位置、资源、功率及阵列。</p>
+        </section>
+        <details class="card"><summary>高级配置 · 完整 JSON</summary><p class="help">开启后以 JSON 为准，可配置极化、波束、SRS 跳频、资源偏移及每个干扰源。未知字段会被拒绝。</p><label class="check"><input id="advanced-on" type="checkbox"> 使用完整 JSON 配置</label><button id="sync-json" class="secondary" type="button">从表单填入</button><label class="sr-only" for="config-json">完整配置 JSON</label><textarea id="config-json" spellcheck="false" rows="18"></textarea><div class="button-row"><button id="export-config" class="secondary" type="button">下载配置</button><label class="file-button">导入配置<input id="import-config" type="file" accept=".json"></label></div></details>
+      </div><aside class="experiment-summary"><section class="card sticky"><div class="eyebrow">EXPERIMENT PREVIEW</div><h2>实验概览</h2><svg id="topology" viewBox="0 0 300 180" role="img" aria-label="收发端与干扰源二维拓扑"></svg><div class="legend"><span><i class="dot blue"></i>发射端</span><span><i class="dot"></i>接收端</span><span><i class="dot orange"></i>干扰源</span></div><dl><div><dt>引擎</dt><dd id="summary-engine">统计信道</dd></div><div><dt>资源网格</dt><dd id="summary-grid">28 × 288</dd></div><div><dt>收发端口</dt><dd id="summary-ports">1 → 2</dd></div><div><dt>占用带宽</dt><dd id="summary-bw">8.64 MHz</dd></div></dl><div class="formula">Y = HX + ∑ HᵢXᵢ + N</div><p class="help">每份结果包含 H / CIR、X、Y、各叠加分量与可复现配置。</p><button id="run" class="primary" type="submit">生成实验数据 <span>→</span></button><p id="engine-status" class="help status-note">正在检查本地引擎…</p></section></aside></div>
+    </form>
+  </section>
+  <section id="runs" class="page" hidden><div class="page-heading"><div><div class="eyebrow">REPRODUCIBLE EXPERIMENTS</div><h1>实验记录</h1><p>查看生成进度，检查信道与观测，下载完整结果。</p></div><button class="primary" data-page="workspace">新建实验 +</button></div><div id="job-list"></div><section id="result" class="card" hidden><div class="card-title"><div><h2>结果预览</h2><p id="result-description"></p></div><a id="download-result" class="primary">下载实验包 ↓</a></div><div class="plots"><div><h3>信道幅频响应 · Rx 0 / Tx 0 / t = 0</h3><canvas id="channel-plot" width="660" height="270" aria-label="信道幅度随频率变化"></canvas><p class="help">横轴：基带频偏 MHz　纵轴：|H| dB</p></div><div><h3>平均接收功率 · 每个 RE</h3><canvas id="power-plot" width="660" height="270" aria-label="接收信号各分量平均功率"></canvas><div class="legend"><span style="color:#2667ca">有用信号</span><span style="color:#d97a23">干扰</span><span style="color:#83909c">噪声</span><span style="color:#087f75">Y</span></div><p class="help">横轴：时间 ms　纵轴：dBm / RE（含空闲 RE）</p></div></div><details><summary>导出数组与形状</summary><pre id="array-info"></pre></details></section></section>
+  <section id="guide" class="page" hidden><div class="page-heading"><div><div class="eyebrow">BRING YOUR ALGORITHM</div><h1>数据与接入</h1><p>下载观测包后，在你熟悉的 Python / MATLAB 环境中验证算法。</p></div></div><section class="card prose"><h2>一个透明的前向模型</h2><p>平台生成原始传播信道和发射信号，再叠加独立干扰与噪声。信道估计、测量计算与算法评估由使用者实现。</p><div class="formula">Y[t,r,k] = ∑ₚ H[t,r,p,k] X[t,p,k] + I[t,r,k] + N[t,r,k]</div><table><thead><tr><th>文件 / 字段</th><th>含义</th></tr></thead><tbody><tr><td>observations.npz</td><td>原始复数数组，可用 NumPy 安全读取</td></tr><tr><td>metadata.json</td><td>完整配置、版本、单位、维度及校验值</td></tr><tr><td>desired_h / desired_cir</td><td>频域信道 / 路径系数</td></tr><tr><td>desired_x / y</td><td>发射网格 / 未处理接收观测</td></tr><tr><td>signal / interference / noise</td><td>叠加前各分量，用于独立核验</td></tr></tbody></table><pre>import numpy as np
+
+with np.load("observations.npz", allow_pickle=False) as data:
+    h = data["desired_h"]      # [time, rx, tx, subcarrier]
+    x = data["desired_x"]      # [time, tx, subcarrier]
+    y = data["y"]             # [time, rx, subcarrier]
+    # 在这里接入你的算法</pre><h2>模型范围</h2><ul><li>CDL / TDL 使用官方 Sionna PHY，统计链路独立生成。位置用于自由空间路径损耗；可显式指定损耗。TDL 默认天线间独立，不使用方向图或阵列几何。</li><li>Sionna RT 使用实际路径损耗和绝对时延；短时间内固定路径几何，仅演进多普勒相位。</li><li>频域 RE 模型采用时隙平均符号间隔，不包含时域 OFDM、CP、ICI 或同步接收机。</li><li>CSI-RS 支持单端口 row 2；SSB 包含同步序列和 PBCH-DMRS，不包含 PBCH 数据编码。更多波形可通过自定义 X 输入。</li><li>自动波形功率是每个活跃 RE 上跨发射端口的总功率。它不是全载波总发射功率。</li></ul><h2>使用范围</h2><p>仅限高校教学和非商业科研。修改版公开及再分发需另行取得许可。完整条款见仓库 LICENSE。</p></section></section>
+  <footer>ChannelHub · 让每一次算法验证，都有可复现的起点。</footer>
+</main>
+</body></html>

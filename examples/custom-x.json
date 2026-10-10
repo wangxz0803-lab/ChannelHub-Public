@@ -1,0 +1,7 @@
+{
+  "engine": "statistical",
+  "profile": "TDL-A",
+  "num_rb": 24,
+  "num_slots": 2,
+  "tx": {"waveform": {"kind": "custom"}}
+}

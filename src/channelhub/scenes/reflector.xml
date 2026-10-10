@@ -1,0 +1,10 @@
+<scene version="3.0.0">
+  <bsdf type="itu-radio-material" id="concrete">
+    <string name="type" value="concrete"/>
+    <float name="thickness" value="0.2"/>
+  </bsdf>
+  <shape type="rectangle" id="ground">
+    <transform name="to_world"><scale x="500" y="500" z="1"/></transform>
+    <ref id="concrete"/>
+  </shape>
+</scene>

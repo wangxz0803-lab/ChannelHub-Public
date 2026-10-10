@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "channelhub-public"
+version = "0.1.0"
+description = "Channel and interference generation for university research"
+requires-python = ">=3.11"
+license = "LicenseRef-ChannelHub-University-Research"
+license-files = ["LICENSE"]
+dependencies = ["numpy>=2.2.6", "pydantic>=2.10,<3", "fastapi>=0.115,<1", "uvicorn>=0.30", "python-multipart>=0.0.20"]
+
+[project.optional-dependencies]
+statistical = ["sionna==2.2.0"]
+rt = ["sionna-rt==2.2.0"]
+dev = ["pytest>=8", "httpx>=0.28", "ruff>=0.12", "build>=1.2"]
+
+[project.scripts]
+channelhub = "channelhub.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+channelhub = ["web/*", "scenes/*.xml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["statistical: requires Sionna PHY", "rt: requires working Sionna RT native backend"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]

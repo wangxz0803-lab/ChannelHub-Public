@@ -1,0 +1,94 @@
+ChannelHub University Research License
+Version 1.0 — 10 October 2026
+
+Copyright (c) 2026 ChannelHub contributors. All rights reserved except as
+expressly granted below. This is a source-available license restricted to
+university teaching and noncommercial research; it is not an Open Source
+Initiative approved open-source license.
+
+1. Eligible users and permitted purpose
+
+An accredited university or other institution of higher education, and its
+enrolled students and personnel acting within that institution's teaching
+or research activities, may download, install, run, study and internally
+modify this software solely for teaching and noncommercial academic research.
+The permission is nonexclusive, worldwide and royalty-free, subject to these
+terms. Research institutes that are not institutions of higher education,
+companies and unaffiliated individuals require separate written permission.
+
+Noncommercial academic research excludes development or validation of a
+commercial product or service, paid consulting, production deployment,
+commercial network operation, and work undertaken for the commercial benefit
+of a third party. Ordinary university tuition and general research grants do
+not, by themselves, make teaching or research commercial. Commercially
+commissioned product research requires separate written permission.
+
+2. Internal copies and modifications
+
+Eligible users may make copies and modifications within their institution
+only as necessary for the permitted purpose. Preserve this license and all
+copyright and attribution notices. Clearly identify changes in internal
+modified versions. Recipients within the institution must be made aware of
+these terms. This license does not transfer ownership of modifications.
+
+3. Publication and redistribution
+
+Except for the hosting-platform rights in section 4, redistribution of this
+software or substantial portions of it, publication of modified versions,
+sublicensing, and transfer to another institution or third party require the
+copyright holder's prior written permission. Direct other eligible users to
+the official repository instead of redistributing a copy.
+
+Users may publish papers, evaluation results, independently written algorithms
+and generated numerical data from permitted research, provided they do not
+include restricted source code or substantial portions of the software.
+This license does not claim ownership of those independent research outputs.
+Academic acknowledgement of ChannelHub and applicable upstream tools is
+requested in research publications.
+
+4. Public hosting platform
+
+Where this software is hosted in a public GitHub repository, nothing in this
+license purports to limit rights that the copyright holder grants under
+GitHub's applicable Terms of Service, including viewing and forking within
+GitHub as permitted by its functionality. That platform-required permission
+does not grant additional commercial-use or off-platform redistribution rights
+under this license. It does not imply endorsement of any fork.
+
+5. Other rights and third-party components
+
+No use outside the permission above is granted. No trademark or express
+patent license is granted by this document. Separately licensed third-party
+components remain subject to their own licenses; this license does not
+restrict rights granted directly by their copyright holders. See the
+third-party notices. Written permission from the relevant copyright holder
+may authorize additional uses.
+
+6. Termination
+
+The permissions under this license terminate if you fail to comply with its
+terms. Upon termination, stop use and distribution and remove copies under
+your control, except copies retained as required by law. Any reinstatement
+requires the copyright holder's written permission.
+
+7. No warranty; limitation of liability
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+PURPOSE AND NONINFRINGEMENT. TO THE EXTENT PERMITTED BY APPLICABLE LAW, THE
+AUTHORS AND COPYRIGHT HOLDERS SHALL NOT BE LIABLE FOR ANY CLAIM, DAMAGES OR
+OTHER LIABILITY ARISING FROM THE SOFTWARE OR ITS USE, WHETHER IN CONTRACT,
+TORT OR OTHERWISE. Users are responsible for validating scientific assumptions
+and numerical results for their intended research.
+
+8. Permission requests
+
+Request additional permission from the maintainers of the official repository:
+https://github.com/wangxz0803-lab/ChannelHub-Public
+
+中文使用范围摘要（以以上英文条款为准）：
+仅高校及其在校学生、教职人员在高校教学和非商业科研范围内使用；可内部
+复制和修改。商用、商业产品研发、向其他机构转交、再分发及公开修改版须
+另行取得书面许可。公开 GitHub 仓库按平台条款必需授予的查看和站内 fork
+等权利除外。独立算法、论文、评价结果及不包含受限源码的生成数值数据
+可以发表。第三方依赖继续适用各自许可证。软件按现状提供。

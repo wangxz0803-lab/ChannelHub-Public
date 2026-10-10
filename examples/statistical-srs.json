@@ -1,0 +1,11 @@
+{
+  "engine": "statistical",
+  "profile": "CDL-C",
+  "seed": 42,
+  "num_rb": 24,
+  "num_slots": 2,
+  "tx": {"waveform": {"kind": "srs", "identity": 0}},
+  "interferers": [
+    {"position_m": [90, 25, 10], "power_dbm": 0, "waveform": {"kind": "qpsk", "identity": 13}}
+  ]
+}
